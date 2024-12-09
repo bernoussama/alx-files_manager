@@ -1,0 +1,22 @@
+services:
+  node:
+    image: node:12
+    stdin_open: true # docker run -i
+    volumes:
+      - .:/app
+    tty: true # docker run -t
+    network_mode: "host"
+  redis:
+    image: redis/redis-stack-server:latest
+    ports:
+      - "6379:6379"
+    network_mode: "host"
+    volumes:
+      - .:/app
+  mongodb:
+    image: mongodb/mongodb-community-server:latest
+    ports:
+      - "27017:27017"
+    network_mode: "host"
+    volumes:
+      - .:/app
