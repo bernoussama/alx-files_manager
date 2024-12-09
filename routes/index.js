@@ -10,5 +10,7 @@ const loadRoutes = (server) => {
   server.get("/connect", AuthController.getConnect);
   server.get("/disconnect", AuthController.getDisconnect);
   server.get("/users/me", UsersController.getMe);
+
+  server.post("/files" FilesController.postUpload)
 };
 export default loadRoutes;
