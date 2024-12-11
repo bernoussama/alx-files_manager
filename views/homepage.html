@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Homepage</title>
+    <script src="https://unpkg.com/htmx.org@1.5.0"></script>
+    <script>
+      function handleLogin(event) {
+        event.preventDefault();
+        const email = document.getElementById("email").value;
+        const password = document.getElementById("password").value;
+        const authHeader = "Basic " + btoa(email + ":" + password);
+
+        fetch("/connect", {
+          method: "GET",
+          headers: {
+            Authorization: authHeader,
+            "Content-Type": "application/json",
+          },
+        })
+          .then((response) => response.text())
+          .then((data) => {
+            document.getElementById("content").innerHTML = data;
+          })
+          .catch((error) => console.error("Error:", error));
+      }
+    </script>
+  </head>
+  <body>
+    <h1>Welcome to the Homepage</h1>
+    <div id="content">
+      <h2>Login</h2>
+      <form onsubmit="handleLogin(event)">
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required />
+        <br />
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required />
+        <br />
+        <button type="submit">Login</button>
+      </form>
+    </div>
+    <div id="actions">
+      <button hx-get="/status" hx-target="#content">Get Status</button>
+      <button hx-get="/stats" hx-target="#content">Get Stats</button>
+      <button hx-get="/disconnect" hx-target="#content">Disconnect</button>
+      <button hx-get="/users/me" hx-target="#content">Get User Info</button>
+      <h2>Create New User</h2>
+      <form hx-post="/users" hx-target="#content" hx-swap="innerHTML">
+        <label for="newEmail">Email:</label>
+        <input type="email" id="newEmail" name="email" required />
+        <br />
+        <label for="newPassword">Password:</label>
+        <input type="password" id="newPassword" name="password" required />
+        <br />
+        <button type="submit">Create User</button>
+      </form>
+    </div>
+  </body>
+</html>
