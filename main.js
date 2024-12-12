@@ -1,6 +1,6 @@
-import redisClient from "./utils/redis";
+// import redisClient from './utils/redis';
 
-import dbClient from "./utils/db";
+import dbClient from './utils/db';
 
 // (async () => {
 //   console.log(redisClient.isAlive());
@@ -13,23 +13,22 @@ import dbClient from "./utils/db";
 //   }, 1000 * 10);
 // })();
 
-const waitConnection = () =>
-  new Promise((resolve, reject) => {
-    let i = 0;
-    const repeatFct = async () => {
-      await setTimeout(() => {
-        i += 1;
-        if (i >= 10) {
-          reject();
-        } else if (!dbClient.isAlive()) {
-          repeatFct();
-        } else {
-          resolve();
-        }
-      }, 1000);
-    };
-    repeatFct();
-  });
+const waitConnection = () => new Promise((resolve, reject) => {
+  let i = 0;
+  const repeatFct = async () => {
+    await setTimeout(() => {
+      i += 1;
+      if (i >= 10) {
+        reject();
+      } else if (!dbClient.isAlive()) {
+        repeatFct();
+      } else {
+        resolve();
+      }
+    }, 1000);
+  };
+  repeatFct();
+});
 
 (async () => {
   console.log(dbClient.isAlive());

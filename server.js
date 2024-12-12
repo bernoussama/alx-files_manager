@@ -1,14 +1,12 @@
-import express from "express";
-import loadRoutes from "./routes/index";
+import express from 'express';
 
-const bodyParser = require("body-parser");
-const multer = require("multer");
+import bodyParser from 'body-parser';
+import loadRoutes from './routes/index';
 // v1.0.5
-const upload = multer(); // for parsing multipart/form-data
 
 const server = express();
 server.use(bodyParser.json()); // for parsing application/json
-server.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
+server.use(bodyParser.urlencoded({ extended: true }));
 
 loadRoutes(server);
 

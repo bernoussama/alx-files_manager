@@ -17,5 +17,6 @@ const loadRoutes = (server) => {
   server.get('/files', FilesController.getIndex);
   server.put('/files/:id/publish', FilesController.putPublish);
   server.put('/files/:id/unpublish', FilesController.putUnpublish);
+  server.get('/files/:id/data', FilesController.getFile);
 };
 export default loadRoutes;

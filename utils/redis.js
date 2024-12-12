@@ -1,5 +1,5 @@
-import { promisify } from "util";
-import { createClient } from "redis";
+import { promisify } from 'util';
+import { createClient } from 'redis';
 
 /**
  * RedisClient class to interact with Redis.
@@ -11,11 +11,11 @@ class RedisClient {
   constructor() {
     this.client = createClient();
     this.alive = true;
-    this.client.on("error", (err) => {
-      console.error("Redis Client Error: ", err.message || err.toString());
+    this.client.on('error', (err) => {
+      console.error('Redis Client Error: ', err.message || err.toString());
       this.alive = false;
     });
-    this.client.on("connect", () => {
+    this.client.on('connect', () => {
       this.alive = true;
     });
   }

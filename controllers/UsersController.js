@@ -1,7 +1,7 @@
 /* eslint-disable import/no-named-as-default */
-import redisClient from "../utils/redis";
-import dbClient from "../utils/db";
-import { hashPassword } from "../utils/auth";
+import redisClient from '../utils/redis';
+import dbClient from '../utils/db';
+import { hashPassword } from '../utils/auth';
 
 export default class UsersController {
   static getStatus(req, res) {
@@ -20,17 +20,17 @@ export default class UsersController {
     const { email } = req.body;
     const { password } = req.body;
     if (!email) {
-      res.status(400).json({ error: "Missing email" });
+      res.status(400).json({ error: 'Missing email' });
       return;
     }
     if (!password) {
-      res.status(400).json({ error: "Missing password" });
+      res.status(400).json({ error: 'Missing password' });
       return;
     }
     const hashedPassword = hashPassword(password);
     const inserted = await dbClient.newUser(email, hashedPassword);
     if (!inserted) {
-      res.status(400).json({ error: "Already exist" });
+      res.status(400).json({ error: 'Already exist' });
       return;
     }
     console.log(inserted);
@@ -39,13 +39,13 @@ export default class UsersController {
   }
 
   static async getMe(req, res) {
-    const token = req.headers["x-token"];
+    const token = req.headers['x-token'];
     const id = await redisClient.get(`auth_${token}`);
     console.log(id);
     const user = await dbClient.getUserById(id);
     console.log(user);
     if (!user) {
-      res.status(401).json({ error: "Unauthorized" });
+      res.status(401).json({ error: 'Unauthorized' });
       return;
     }
     res.status(200).json({ id: user._id.toString(), email: user.email });
